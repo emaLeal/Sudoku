@@ -1,0 +1,43 @@
+#root {
+    /* Define el fondo de color degradado */
+    -fx-background-color: linear-gradient(to bottom, #6C4667, #9d6878);
+}
+
+.button {
+    -fx-background-radius: 5;
+
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-pref-width: 200;
+    -fx-pref-height: 40;
+    -fx-padding: 5 10;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+}
+#ButtonRed{
+    -fx-border-color: #B22222;
+    -fx-background-color: linear-gradient(to bottom, #FF4136, #D50000);
+}
+#ButtonRed:hover{
+    -fx-background-color: linear-gradient(to bottom, #FF4136, #FF0000);
+}
+#ButtonBlue{
+    -fx-border-color: #1a83b7;
+    -fx-background-color: linear-gradient(to bottom, #30AEEB, #1ea6e0);
+}
+#ButtonBlue:hover{
+    -fx-background-color: linear-gradient(to bottom, #30AEEB, #29baff);
+}
+
+#ButtonGrey{
+    -fx-border-color: #6e6e6b;
+    -fx-background-color: linear-gradient(to bottom, #94918A, #75706d);
+}
+#ButtonGrey:hover{
+    -fx-background-color: linear-gradient(to bottom, #7A7772, #5d5c5a);
+}
+
+
+
