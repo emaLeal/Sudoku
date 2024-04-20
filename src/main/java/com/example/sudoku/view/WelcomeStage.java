@@ -17,11 +17,10 @@ public class WelcomeStage extends Stage {
         setTitle("Sudoku");
         Scene scene = new Scene(root);
         setScene(scene);
+        getIcons().add(new Image(
+                String.valueOf(getClass().getResource("/com/example/sudoku/images/icon.png"))));
 
-        /*getIcons().add(new Image(
-                String.valueOf(getClass().getResource("/com/example/ahorcado/images/favicon.png"))));
 
-      */
         setResizable(false);
         show();
     }
