@@ -1,10 +1,13 @@
 package com.example.sudoku.controller;
 
+import com.example.sudoku.model.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+
+import java.util.Arrays;
 
 public class GameController {
 
@@ -20,7 +23,7 @@ public class GameController {
                     // Crear un nuevo panel y un nuevo label
                     //StackPane panel = new StackPane();
                     TextField textField = new TextField();
-                    textField.getStyleClass().add("text-field-transparent");
+                    textField.getStyleClass().add("text-field-grid");
 
                     // Agregar el label al panel
                     //panel.getChildren().add(textField);
@@ -30,7 +33,10 @@ public class GameController {
 
             }
         }
+        Game game = new Game();
+
         System.out.println("El método initialize() se ha ejecutado.");
+
     }
 
 
