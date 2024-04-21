@@ -1,5 +1,6 @@
 package com.example.sudoku.controller;
 
+import com.example.sudoku.model.Game;
 import com.example.sudoku.view.GameStage;
 import com.example.sudoku.view.WelcomeStage;
 import javafx.event.ActionEvent;
@@ -7,9 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import java.io.IOException;
 public class WelcomeController {
+    public Game game;
 
-
-
+    @FXML
+    public void initialize() {
+        game = new Game();
+    }
 
     @FXML
     public void StartGame(ActionEvent event) throws IOException {
