@@ -13,9 +13,11 @@ public class GameController {
 
     @FXML
     private GridPane gridPane;
-
+    private Game game;
     public void initialize() {
         // Código que deseas ejecutar antes de cargar la vista
+        int[][] grid = Game.generateSudoku();
+
         for (int row = 0; row < gridPane.getRowCount(); row++) {
             for (int col = 0; col < gridPane.getColumnCount(); col++) {
                 // Verificar si la celda ya tiene un panel
@@ -24,7 +26,7 @@ public class GameController {
                     //StackPane panel = new StackPane();
                     TextField textField = new TextField();
                     textField.getStyleClass().add("text-field-grid");
-
+                    textField.setText(String.valueOf(grid[row][col]));
                     // Agregar el label al panel
                     //panel.getChildren().add(textField);
 
@@ -33,7 +35,7 @@ public class GameController {
 
             }
         }
-        Game game = new Game();
+
 
         System.out.println("El método initialize() se ha ejecutado.");
 
