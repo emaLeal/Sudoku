@@ -8,14 +8,6 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 public class WelcomeController {
 
-    @FXML
-    private ImageView imagen1;
-
-    @FXML
-    private ImageView imagen11;
-
-    @FXML
-    private ImageView imagen111;
 
 
 
