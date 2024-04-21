@@ -41,7 +41,6 @@
 #gridSudoku{
 
     -fx-background-color: white;
-
 }
 
 #pane1{
@@ -60,10 +59,15 @@
 }
 
 
-.text-field-transparent {
+.text-field-grid {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
     -fx-border-color: transparent;
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+}
+#buttonHome{
+    -fx-pref-width: 50;
 }
 
