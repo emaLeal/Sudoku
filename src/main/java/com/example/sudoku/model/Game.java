@@ -1,76 +1,75 @@
 package com.example.sudoku.model;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.ArrayList;
+import java.util.Stack;
 
 public class Game {
-    private static final int BASE = 3;
-    private static final int SIDE = BASE * BASE;
-
+    private final int BASE = 3;
+    private final int LADO = BASE * BASE;
+    private int[][] matrizGanadora;
     public Game() {
-        System.out.println("Juego iniciado");
+        matrizGanadora = new int[LADO][LADO]; // inicializar matriz ganadora
+        llenarMatriz(); // llenamos matriz
+    }
+    /**
+     * @param fila fila del patrón
+     * @param columna columna del patrón
+     *
+     * @return patron ya con la formula
+     * */
+    private Integer patron(int fila, int columna) {
+        /*
+        * (3 * (1 % 3) + 1 / 3 + 0) % 9 = 3
+        * */
+        return (BASE * (fila % BASE) + fila / BASE + columna) % LADO;
     }
 
-    public static int[][] generateSudoku() {
-        int[][] board = new int[SIDE][SIDE];
-
-        // Patrón para una solución válida base
-        for (int r = 0; r < SIDE; r++) {
-            for (int c = 0; c < SIDE; c++) {
-                board[r][c] = (BASE * (r % BASE) + r / BASE + c) % SIDE;
-            }
-        }
-
-        // Mezclar filas, columnas y números
-        List<Integer> rBase = new ArrayList<>();
-        for (int i = 0; i < BASE; i++) {
-            rBase.add(i);
-        }
-        Collections.shuffle(rBase);
-        List<Integer> rows = new ArrayList<>();
-        List<Integer> cols = new ArrayList<>();
-        List<Integer> nums = new ArrayList<>();
-        for (int g : rBase) {
-            for (int r : shuffle(rBase)) {
-                rows.add(g * BASE + r);
-            }
-            for (int c : shuffle(rBase)) {
-                cols.add(g * BASE + c);
-            }
-        }
-        for (int i = 1; i <= SIDE; i++) {
-            nums.add(i);
-        }
-        Collections.shuffle(nums);
-
-        // Producir tablero usando el patrón base aleatorizado
-        for (int r : rows) {
-            for (int c : cols) {
-                board[r][c] = nums.get(board[r][c]);
-            }
-        }
-
-        return board;
-    }
-
-    // Mezclar una lista
-    private static List<Integer> shuffle(List<Integer> s) {
-        List<Integer> shuffled = new ArrayList<>(s);
-        Collections.shuffle(shuffled);
+  /**
+   * Retorna una lista barajada de forma aleatoria
+   * @param list Lista ordenada
+   * @return lista barajada
+   * */
+    private <T> List<T> shuffle(List<T> list) {
+        List<T> shuffled = new ArrayList<>(list); // Crear una copia de la lista
+        Collections.shuffle(shuffled); // Barajar la lista
         return shuffled;
     }
 
-    // Imprimir el tablero
-    public static void printBoard(int[][] board) {
-        for (int[] row : board) {
-            for (int num : row) {
-                System.out.print(num + " ");
+    /**
+     *
+     * */
+    private void llenarMatriz() {
+        ArrayList<Integer> baseRango = new ArrayList<>();
+        Stack<Integer> filas = new Stack<>();
+        Stack<Integer> columnas = new Stack<>();
+        List<Integer> nums = new ArrayList<>();
+        for (int i = 0;i<this.BASE;i++) {
+            baseRango.add(i);
+        }
+        for (int g :  shuffle(baseRango)) {
+            for (int f : shuffle(baseRango)) {
+                filas.push(g * BASE + f);
             }
-            System.out.println();
+        }
+        for (int g : shuffle(baseRango)) {
+            for (int c : shuffle(baseRango)) {
+                columnas.push(g * BASE + c);
+            }
+        }
+        for (int i = 1;i<=LADO;i++) {
+            nums.add(i);
+        }
+        nums = shuffle(nums);
+
+        for (int f = 0;f<filas.size();f++) {
+            for (int c=0;c<columnas.size();c++){
+                matrizGanadora[f][c] = nums.get(patron(f, c));
+                System.out.print(matrizGanadora[f][c] + " ");
+            }
+            System.out.println("\n");
+
         }
     }
-
-
 }
