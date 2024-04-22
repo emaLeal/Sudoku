@@ -7,39 +7,44 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class GameController {
 
     @FXML
     private GridPane gridPane;
     private Game game;
+
     public void initialize() {
         // Código que deseas ejecutar antes de cargar la vista
-        int[][] grid = Game.generateSudoku();
+        game = new Game();
+        int [][] grid = game.getMatrizGanadora();
+        List<Integer> listaIndices = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
 
-        for (int row = 0; row < gridPane.getRowCount(); row++) {
-            for (int col = 0; col < gridPane.getColumnCount(); col++) {
-                // Verificar si la celda ya tiene un panel
 
-                    // Crear un nuevo panel y un nuevo label
-                    //StackPane panel = new StackPane();
+        for (int row = 0; row < 9; row += 3) {
+            for (int col = 0; col < 9; col += 3) {
+                Collections.shuffle(listaIndices);
+                int numerosMostrados = 0;
+                for (int index : listaIndices) {
+
+                    int r = row + index / 3;
+                    int c = col + index % 3;
+
                     TextField textField = new TextField();
                     textField.getStyleClass().add("text-field-grid");
-                    textField.setText(String.valueOf(grid[row][col]));
-                    // Agregar el label al panel
-                    //panel.getChildren().add(textField);
-
-                    // Agregar el panel a la celda del GridPane
-                    gridPane.add(textField, col, row);
+                    if (numerosMostrados < 4) {
+                        textField.setText(String.valueOf(grid[r][c]));
+                        textField.setEditable(false); // Para evitar que el usuario modifique los números
+                        numerosMostrados++;
+                    }else{
+                        textField.getStyleClass().add("text-field-editable");
+                    }
+                    gridPane.add(textField, c, r);
+                }
 
             }
         }
 
-
-        System.out.println("El método initialize() se ha ejecutado.");
-
     }
-
-
 }

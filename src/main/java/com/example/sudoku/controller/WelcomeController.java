@@ -8,12 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import java.io.IOException;
 public class WelcomeController {
-    public Game game;
-
-    @FXML
-    public void initialize() {
-        game = new Game();
-    }
 
     @FXML
     public void StartGame(ActionEvent event) throws IOException {

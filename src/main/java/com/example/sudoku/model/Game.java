@@ -66,10 +66,14 @@ public class Game {
         for (int f = 0;f<filas.size();f++) {
             for (int c=0;c<columnas.size();c++){
                 matrizGanadora[f][c] = nums.get(patron(f, c));
-                System.out.print(matrizGanadora[f][c] + " ");
+                //System.out.print(matrizGanadora[f][c] + " ");
             }
-            System.out.println("\n");
+            //System.out.println("\n");
 
         }
+    }
+
+    public int[][] getMatrizGanadora(){
+        return  matrizGanadora;
     }
 }
