@@ -43,17 +43,17 @@
     -fx-background-color: white;
 }
 
-#pane1{
+.pane1{
     -fx-border-width: 0 2 2 0;
     -fx-border-color: black;
 }
 
-#pane2{
+.pane2{
     -fx-border-width: 0 2 0 0;
     -fx-border-color: black;
 }
 
-#pane3{
+.pane3{
     -fx-border-width: 0 0 2 0;
     -fx-border-color: black;
 }
