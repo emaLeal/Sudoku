@@ -72,7 +72,28 @@
     -fx-text-fill:green;
 }
 
+
+
 #buttonHome{
     -fx-pref-width: 50;
+}
+
+.left-complete {
+    -fx-background-color: darkgreen;
+    -fx-text-fill: white;
+}
+
+.left {
+    -fx-font-weight: bold;
+    -fx-font-size: 17px;
+    -fx-pref-width: 50;
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.leftlabel {
+    -fx-font-weight: bold;
+    -fx-pref-width: 50;
+    -fx-alignment: CENTER;
+    -fx-font-size: 17px;
 }
 
