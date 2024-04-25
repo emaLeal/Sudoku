@@ -12,7 +12,7 @@ public class WelcomeController {
     @FXML
     public void StartGame(ActionEvent event) throws IOException {
         System.out.println("Iniciar juego");
-        GameStage.getInstance();
+        GameStage.getInstance().getGameController().llenarTablero();
         WelcomeStage.deleteInstance();
     }
 
