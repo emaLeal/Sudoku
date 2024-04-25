@@ -9,10 +9,14 @@ public class Game {
     private final int BASE = 3;
     private final int LADO = BASE * BASE;
     private final int[][] matrizGanadora;
+
+    private boolean running;
     public Game() {
         matrizGanadora = new int[LADO][LADO]; // inicializar matriz ganadora
         llenarMatriz(); // llenamos matriz
+        running = true;
     }
+
     /**
      * Funcion que devuelve un index en base a la columna y fila que se le pase
      * @param fila fila del patrón
@@ -97,5 +101,13 @@ public class Game {
      * */
     public int[][] getMatrizGanadora(){
         return  matrizGanadora;
+    }
+
+    public boolean stateGame() {
+        return running;
+    }
+
+    public void finishGame() {
+        running = false;
     }
 }
