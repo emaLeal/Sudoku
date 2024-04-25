@@ -25,6 +25,9 @@ public class GameController {
     private VBox numbers;
     private Game game;
 
+    /**
+     * Funcion para llenar el tablero de la matriz
+     * */
     public void llenarTablero() {
         game = new Game();
         int[][] grid = game.getMatrizGanadora();
@@ -62,10 +65,39 @@ public class GameController {
         handleNumbersLeftChange();
     }
 
+    /**
+     * Funcion para verificar que el tablero coincida con la matriz y termina el juego
+     * y da un mensaje de felicitaciones
+     * */
+    private boolean verifyWinner() {
+        int[][] matrizGanadora = game.getMatrizGanadora();
+        for (Node cell : gridPane.getChildren()) {
+            if (cell != null){
+                if (cell instanceof TextField text) {
+                    Integer row = GridPane.getRowIndex(cell);
+                    Integer col = GridPane.getColumnIndex(cell);
+                    if (row != null && col != null) {
+                        boolean isEqual = Objects.equals(text.getText(), String.valueOf(matrizGanadora[row][col]));
+                        if (!isEqual)
+                            return false;
+                    }
+                }
+
+            }
+        }
+        game.finishGame();
+        setInteractionLabel("Felicidades, Has Ganado", "orange");
+        return true;
+    }
+
+    /**
+     * Funcion para verificar que numeros faltan en cada caso, ejemplo, faltan 5 casillas de 3
+     * o 3 casillas de 8
+     * @see GameController#numberLeft(int)
+     */
     private void handleNumbersLeftChange() {
         for (Node node : numbers.getChildren()) {
-            if (node instanceof HBox && node.getStyleClass().contains("box")) {
-                HBox hbox = (HBox) node;
+            if (node instanceof HBox hbox && node.getStyleClass().contains("box")) {
                 int leftNumber = 0;
                 for (Node children : hbox.getChildren()) {
 
@@ -83,7 +115,12 @@ public class GameController {
         }
     }
 
-
+    /**
+     * Funcion que retornara el numero de caracteres en el tablero, ej:
+     * hay 5 veces 3
+     * @param number para saber el numero que se buscara en el tablero
+     * @return counter para saber cuantos numeros se encontraron
+     */
 
     private int numberLeft(int number) {
         int counter = 0;
@@ -98,14 +135,24 @@ public class GameController {
         return counter;
     }
 
+    /**
+     * Se usa para editar el color y el texto de un elemento de la interfaz
+     * @param text para saber que texto se ubicara en el label
+     * @param color para saber que color se le ubicara
+     */
+
     private void setInteractionLabel(String text, String color) {
         interactionLabel.setStyle("-fx-text-fill:" + color);
         interactionLabel.setText(text);
     }
 
+    /**
+    * Metodo para añadir evento a un TextField
+     * @param newValue valor para reemplazar el texto
+     * @param oldValue valor antiguo
+     * @param textField TextField en cuestion
+    * */
     private void handleTextFieldChange(String newValue, String oldValue, TextField textField) {
-
-
         if (!newValue.matches("\\d*")) { // Verificar si la entrada no es un número con el método matches
             setInteractionLabel("¡Inválido! Por favor, ingrese un número.", "purple");
             textField.setText(oldValue); // Restaurar el valor anterior
@@ -121,9 +168,10 @@ public class GameController {
                 textField.setEditable(false); // Desactivar la edición si el número es correcto
                 setInteractionLabel("El número ingresado es correcto :)", "green");
                 handleNumbersLeftChange();
+                verifyWinner();
             } else {
                 setInteractionLabel("El número ingresado no es correcto :(", "red"); // imprime mensaje dado el caso
-                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
                     textField.clear(); // Borrar el TextField
                 }));
                 timeline.play(); // Iniciar la animación
