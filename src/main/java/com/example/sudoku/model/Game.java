@@ -7,107 +7,114 @@ import java.util.Stack;
 
 public class Game {
     private final int BASE = 3;
-    private final int LADO = BASE * BASE;
-    private final int[][] matrizGanadora;
-
+    private final int SIDE = BASE * BASE;
+    private final int[][] winnerBoard;
     private boolean running;
+    private int errors;
+
     public Game() {
-        matrizGanadora = new int[LADO][LADO]; // inicializar matriz ganadora
-        llenarMatriz(); // llenamos matriz
+        winnerBoard = new int[SIDE][SIDE]; // initialize winner matrix
+        fillBoard(); // fill matrix
         running = true;
+        errors = 0;
     }
 
     /**
-     * Funcion que devuelve un index en base a la columna y fila que se le pase
-     * @param fila fila del patrón
-     * @param columna columna del patrón
-     *
-     * @return patron ya con la formula
+     * returns an index in base to the row and column
+     * @param row pattern's row
+     * @param col pattern's column
+     * @return index with the formula
      * */
-    private Integer patron(int fila, int columna) {
+    private Integer pattern(int row, int col) {
         /*
         * (3 * (1 % 3) + 1 / 3 + 0) % 9 = 3
         * */
-        return (BASE * (fila % BASE) + fila / BASE + columna) % LADO;
+        return (BASE * (row % BASE) + row / BASE + col) % SIDE;
     }
 
   /**
-   * Retorna una lista barajada de forma aleatoria
-   * @param list Lista ordenada
-   * @return lista barajada
+   * returns the sorted list in a random way
+   * @param list ordered list
+   * @return sorted list
    * */
     private <T> List<T> shuffle(List<T> list) {
-        List<T> shuffled = new ArrayList<>(list); // Crear una copia de la lista
-        Collections.shuffle(shuffled); // Barajar la lista
+        List<T> shuffled = new ArrayList<>(list); // create a copy from the list
+        Collections.shuffle(shuffled); // sort the list
         return shuffled;
     }
 
     /**
-     * Funcion para llenar la matriz ganadora y poder compararla a futuro con
-     * los inputs del usuario
+     * fill the board to compare and fill the actual sudoku
      * */
-    private void llenarMatriz() {
-        // Inicializamos la lista de datos necesarias
+    private void fillBoard() {
+        // initialize the list with the necesary data
         List<Integer> nums = new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9));
-        nums = shuffle(nums); // Sorteamos la lista de numeros para la matriz
-        // Llenamos filas y columnas
-        Stack<Integer> filas = llenarPila();
-        Stack<Integer> columnas = llenarPila();
+        nums = shuffle(nums); // sort the number's list of values
+        // fill rows and cols
+        Stack<Integer> rows = fillStack();
+        Stack<Integer> cols = fillStack();
 
-        // Se llena la matriz
-        for (int f = 0;f<filas.size();f++) {
-            for (int c=0;c<columnas.size();c++){
+        // we fill the board
+        for (int f = 0;f<rows.size();f++) {
+            for (int c=0;c<cols.size();c++){
                 /*
-                * Se llenara cada posicion-celda con el index de
-                * nums en base al patron dado por la fila y columna
-                * y aunque siempre se retornara el mismo numero
-                * el valor sera distinto y se hara una matriz 9x9
-                * distinta siempre
-                * */
-                matrizGanadora[f][c] = nums.get(patron(f, c));
+                 * fills the cell with the nums index in base to the pattern
+                 * in the row and col and returns the same number, because
+                 * nums is shuffled is going to be always different
+                 */
+                winnerBoard[f][c] = nums.get(pattern(f, c));
             }
         }
     }
 
     /**
-     * LLena las pilas de fila y columna, utilizando un array de
-     * 0 hasta 2 para una operacion que devolvera un numero unico en cada ocasión
-     * y llena 9 veces la pila
-     *
-     * @return fila ya llena de valores random
+     * fills the stack using an array from 0 to 2 and make an equation
+     * @return stack with random values
      * */
-    private Stack<Integer> llenarPila() {
-        ArrayList<Integer> baseRango = new ArrayList<>(List.of(0,1,2));
-        Stack<Integer> lista = new Stack<>();
-        /* se hace el recorrido de la lista baseRango sorteada
-        * y se hace lo mismo dentro, en base a eso se hace la ecuacion
-        * g * BASE * l y se llenara la lista 9 veces en base a esta
-        * ecuacion, ej:
-        * g=0,l=2
-        * 0 * BASE + 2 = 2
-        * y se guardara en la lista
+    private Stack<Integer> fillStack() {
+        ArrayList<Integer> baseR = new ArrayList<>(List.of(0, 1, 2));
+        Stack<Integer> list = new Stack<>();
+        /*
+        * runs the baseR list sorted and do an anitated loop
+        * and fills the list 9 times in base to the equation and store
+        * in the stack
         * */
-        for (int g :  shuffle(baseRango)) {
-            for (int l : shuffle(baseRango)) {
-                lista.push(g * BASE + l);
+        for (int g :  shuffle(baseR)) {
+            for (int l : shuffle(baseR)) {
+                list.push(g * BASE + l);
             }
         }
-        return lista;
+        return list;
     }
 
     /**
-     * una forma de extraer la matriz ganadora y usarla en el juego
-     * @return matrizGanadora
+     * extract the winner matrix and returns it to give it a use
+     * @return winnerBoard
      * */
-    public int[][] getMatrizGanadora(){
-        return matrizGanadora;
+    public int[][] getWinnerBoard(){
+        return winnerBoard;
     }
 
+    /**
+     * verify if the game is running
+     * @return running
+     * */
     public boolean stateGame() {
         return running;
     }
 
+    /**
+     * finish the game
+     * */
     public void finishGame() {
         running = false;
+    }
+
+    public void setErrors(int errors) {
+        this.errors = errors;
+    }
+
+    public int getErrors() {
+        return errors;
     }
 }
