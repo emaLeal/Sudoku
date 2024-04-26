@@ -12,6 +12,10 @@ public class Game {
     private boolean running;
     private int errors;
 
+ /** Constructor for the Game class.
+  * Initializes the game state by creating the winner board matrix, filling it with numbers,
+  * setting the game state to running, and initializing the error count.
+  **/
     public Game() {
         winnerBoard = new int[SIDE][SIDE]; // initialize winner matrix
         fillBoard(); // fill matrix
@@ -110,10 +114,19 @@ public class Game {
         running = false;
     }
 
+
+    /**
+     * Sets the number of errors in the game.
+     * @param errors The number of errors to set.
+     */
     public void setErrors(int errors) {
         this.errors = errors;
     }
 
+    /**
+     * Retrieves the number of errors in the game.
+     * @return The number of errors in the game.
+     */
     public int getErrors() {
         return errors;
     }

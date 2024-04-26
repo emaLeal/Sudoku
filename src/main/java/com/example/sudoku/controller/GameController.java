@@ -37,7 +37,10 @@ public class GameController {
     @FXML
     private Label errors;
 
-
+    /**
+     *Initializes the game controller.
+     * Performs setup tasks such as setting up the timeline and populating the Sudoku board.
+     * */
     public void initialize(){
         lineTime();
         fillBoard();
