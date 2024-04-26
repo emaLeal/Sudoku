@@ -2,6 +2,9 @@ package com.example.sudoku.controller;
 
 import com.example.sudoku.model.Game;
 
+import com.example.sudoku.view.GameStage;
+import com.example.sudoku.view.WelcomeStage;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -10,9 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.*;
 
 public class GameController {
@@ -23,16 +28,23 @@ public class GameController {
     private Label interactionLabel;
     @FXML
     private VBox numbers;
-    private Game game;
+    @FXML
+    private Label chronometer;
 
+    private Game game;
+    private Timeline timeline;
+    public void initialize(){
+        lineTime();
+        llenarTablero();
+    }
     /**
      * Funcion para llenar el tablero de la matriz
      * */
     public void llenarTablero() {
         game = new Game();
         int[][] grid = game.getMatrizGanadora();
-        List<Integer> listaIndices = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
 
+        List<Integer> listaIndices = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
         for (int row = 0; row < 9; row += 3) {
             for (int col = 0; col < 9; col += 3) {
                 Collections.shuffle(listaIndices);
@@ -47,6 +59,9 @@ public class GameController {
                     textField.getProperties().put("row", r);
                     textField.getProperties().put("col", c);
                     if (numerosMostrados < 4) {
+                        //Pane panel = getPaneAt(gridPane, 1, 2);
+                        //panel.setStyle("-fx-background-color: lightblue;");
+
                         textField.setText(String.valueOf(grid[r][c]));
                         textField.setEditable(false);
                         numerosMostrados++;
@@ -65,6 +80,18 @@ public class GameController {
         handleNumbersLeftChange();
     }
 
+
+    public static Pane getPaneAt(GridPane gridPane, int fila, int columna) {
+        for (Node nodo : gridPane.getChildren()) {
+            if (GridPane.getRowIndex(nodo) != null && GridPane.getRowIndex(nodo) == fila
+                    && GridPane.getColumnIndex(nodo) != null && GridPane.getColumnIndex(nodo) == columna) {
+                if (nodo instanceof Pane) {
+                    return (Pane) nodo;
+                }
+            }
+        }
+        return null;
+    }
     /**
      * Funcion para verificar que el tablero coincida con la matriz y termina el juego
      * y da un mensaje de felicitaciones
@@ -178,4 +205,47 @@ public class GameController {
             }
         }
     }
+    public void lineTime(){
+        long inicio = System.currentTimeMillis();
+            timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, e -> {
+
+                    long secondsRemaining = Math.max(0, 300 - Math.round((float) (System.currentTimeMillis()- inicio) / 1000));
+                    chronometer.setText(String.format("%02d:%02d", secondsRemaining / 60, secondsRemaining % 60));
+                }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+
+    /**
+     * funciones de botones de la visa
+     *
+     */
+
+    public void returnHome() throws IOException {
+        GameStage.deleteInstance();
+        WelcomeStage.getInstance();
+    }
+
+    public void restart(){
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof TextField textField && node.getStyleClass().contains("text-field-editable")) {
+                textField.clear();
+            }
+        }
+        timeline.stop();
+        lineTime();
+    }
+
+    public void newGame(){
+        gridPane.getChildren().removeIf(node -> node instanceof TextField);
+        llenarTablero();
+        timeline.stop();
+        lineTime();
+    }
 }
+
+

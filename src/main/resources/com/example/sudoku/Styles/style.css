@@ -1,6 +1,6 @@
 #root {
     /* Define el fondo de color degradado */
-    -fx-background-color: linear-gradient(to bottom, #6C4667, #9d6878);
+    -fx-background-color: linear-gradient(to bottom, #6C4667, #b6798c);
 }
 
 .button {
@@ -72,12 +72,6 @@
     -fx-text-fill:green;
 }
 
-
-
-#buttonHome{
-    -fx-pref-width: 50;
-}
-
 .left-complete {
     -fx-background-color: darkgreen;
     -fx-text-fill: white;
@@ -87,7 +81,7 @@
     -fx-font-weight: bold;
     -fx-font-size: 17px;
     -fx-pref-width: 50;
-    -fx-alignment: CENTER-RIGHT;
+    -fx-alignment: CENTER;
 }
 
 .leftlabel {
@@ -97,3 +91,17 @@
     -fx-font-size: 17px;
 }
 
+.box{
+    -fx-border-width:1;
+    -fx-border-color: black;
+    -fx-background-color: #88B9E7;
+    -fx-text-fill: white;
+}
+
+.badge{
+    -fx-margin: 10;
+    -fx-background-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-background-color: #B995BB;
+}

@@ -100,7 +100,7 @@ public class Game {
      * @return matrizGanadora
      * */
     public int[][] getMatrizGanadora(){
-        return  matrizGanadora;
+        return matrizGanadora;
     }
 
     public boolean stateGame() {
