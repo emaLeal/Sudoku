@@ -22,6 +22,10 @@ import java.util.*;
 
 public class GameController {
 
+    private Game game;
+    private Timeline timeline;
+
+    // FXML
     @FXML
     private GridPane gridPane;
     @FXML
@@ -30,26 +34,28 @@ public class GameController {
     private VBox numbers;
     @FXML
     private Label chronometer;
+    @FXML
+    private Label errors;
 
-    private Game game;
-    private Timeline timeline;
+
     public void initialize(){
         lineTime();
-        llenarTablero();
+        fillBoard();
     }
-    /**
-     * Funcion para llenar el tablero de la matriz
-     * */
-    public void llenarTablero() {
-        game = new Game();
-        int[][] grid = game.getMatrizGanadora();
 
-        List<Integer> listaIndices = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
+    /**
+     * Fills the sudoku with numbers
+     * */
+    public void fillBoard() {
+        game = new Game();
+        int[][] grid = game.getWinnerBoard();
+
+        List<Integer> indexList = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
         for (int row = 0; row < 9; row += 3) {
             for (int col = 0; col < 9; col += 3) {
-                Collections.shuffle(listaIndices);
-                int numerosMostrados = 0;
-                for (int index : listaIndices) {
+                Collections.shuffle(indexList);
+                int showedNumbers = 0;
+                for (int index : indexList) {
 
                     int r = row + index / 3;
                     int c = col + index % 3;
@@ -58,17 +64,13 @@ public class GameController {
                     textField.getStyleClass().add("text-field-grid");
                     textField.getProperties().put("row", r);
                     textField.getProperties().put("col", c);
-                    if (numerosMostrados < 4) {
-                        //Pane panel = getPaneAt(gridPane, 1, 2);
-                        //panel.setStyle("-fx-background-color: lightblue;");
-
+                    if (showedNumbers < 4) {
                         textField.setText(String.valueOf(grid[r][c]));
                         textField.setEditable(false);
-                        numerosMostrados++;
-
+                        showedNumbers++;
                     } else {
                         textField.getStyleClass().add("text-field-editable");
-                        // Agregar un escucha evento para verificar la entrada del usuario
+                        // add an event listener to verify user's input
                         textField.textProperty().addListener((observable, oldValue, newValue) -> {
                          handleTextFieldChange(newValue, oldValue, textField);
                         });
@@ -81,30 +83,30 @@ public class GameController {
     }
 
 
-    public static Pane getPaneAt(GridPane gridPane, int fila, int columna) {
-        for (Node nodo : gridPane.getChildren()) {
-            if (GridPane.getRowIndex(nodo) != null && GridPane.getRowIndex(nodo) == fila
-                    && GridPane.getColumnIndex(nodo) != null && GridPane.getColumnIndex(nodo) == columna) {
-                if (nodo instanceof Pane) {
-                    return (Pane) nodo;
-                }
-            }
-        }
-        return null;
-    }
+//    public static Pane getPaneAt(GridPane gridPane, int fila, int columna) {
+//        for (Node nodo : gridPane.getChildren()) {
+//            if (GridPane.getRowIndex(nodo) != null && GridPane.getRowIndex(nodo) == fila
+//                    && GridPane.getColumnIndex(nodo) != null && GridPane.getColumnIndex(nodo) == columna) {
+//                if (nodo instanceof Pane) {
+//                    return (Pane) nodo;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
     /**
-     * Funcion para verificar que el tablero coincida con la matriz y termina el juego
-     * y da un mensaje de felicitaciones
+     * verify the board is equal to the matrix and finish game with a congratulation's message
      * */
     private boolean verifyWinner() {
-        int[][] matrizGanadora = game.getMatrizGanadora();
+        int[][] winnerBoard = game.getWinnerBoard();
         for (Node cell : gridPane.getChildren()) {
             if (cell != null){
                 if (cell instanceof TextField text) {
                     Integer row = GridPane.getRowIndex(cell);
                     Integer col = GridPane.getColumnIndex(cell);
                     if (row != null && col != null) {
-                        boolean isEqual = Objects.equals(text.getText(), String.valueOf(matrizGanadora[row][col]));
+                        boolean isEqual = Objects.equals(text.getText(), String.valueOf(winnerBoard[row][col]));
                         if (!isEqual)
                             return false;
                     }
@@ -118,8 +120,7 @@ public class GameController {
     }
 
     /**
-     * Funcion para verificar que numeros faltan en cada caso, ejemplo, faltan 5 casillas de 3
-     * o 3 casillas de 8
+     * verify the numbers left
      * @see GameController#numberLeft(int)
      */
     private void handleNumbersLeftChange() {
@@ -143,12 +144,10 @@ public class GameController {
     }
 
     /**
-     * Funcion que retornara el numero de caracteres en el tablero, ej:
-     * hay 5 veces 3
-     * @param number para saber el numero que se buscara en el tablero
-     * @return counter para saber cuantos numeros se encontraron
+     * return the amount of times a number is in the board
+     * @param number the number to search
+     * @return the amount of times a number is in the board
      */
-
     private int numberLeft(int number) {
         int counter = 0;
         for (Node node : gridPane.getChildren()) {
@@ -163,55 +162,62 @@ public class GameController {
     }
 
     /**
-     * Se usa para editar el color y el texto de un elemento de la interfaz
-     * @param text para saber que texto se ubicara en el label
-     * @param color para saber que color se le ubicara
+     * I'ts used to edit the color and text in an interface's element
+     * @param text the text in the label
+     * @param color the color used
      */
-
     private void setInteractionLabel(String text, String color) {
         interactionLabel.setStyle("-fx-text-fill:" + color);
         interactionLabel.setText(text);
     }
 
     /**
-    * Metodo para añadir evento a un TextField
-     * @param newValue valor para reemplazar el texto
-     * @param oldValue valor antiguo
-     * @param textField TextField en cuestion
+    * add an event to a textfield
+     * @param newValue value to replace the text
+     * @param oldValue old value
+     * @param textField the textfield which the event is going to be applied
     * */
     private void handleTextFieldChange(String newValue, String oldValue, TextField textField) {
-        if (!newValue.matches("\\d*")) { // Verificar si la entrada no es un número con el método matches
+        if (!newValue.matches("\\d*")) { // verify if the input is not a number
             setInteractionLabel("¡Inválido! Por favor, ingrese un número.", "purple");
-            textField.setText(oldValue); // Restaurar el valor anterior
+            textField.setText(oldValue); // replace the old value
         } else {
-            int fila = (int) textField.getProperties().get("row");
-            int columna = (int) textField.getProperties().get("col"); // almacenamos los valores ingresados por teclado
-            int valueInMatrix = game.getMatrizGanadora()[fila][columna]; // evaluamos en la matriz ganadora
-            if (newValue.isEmpty()) { // Verificar si el usuario ha borrado el número
-                return; // Nada si el campo está vacío
+            int row = (int) textField.getProperties().get("row");
+            int col = (int) textField.getProperties().get("col"); // store the inputs
+            int valueInMatrix = game.getWinnerBoard()[row][col]; // search in the winnerBoard
+            if (newValue.isEmpty()) { // verify if the value is empty
+                 return; // stop the event
             }
             int valueEntered = Integer.parseInt(newValue);
             if (valueEntered == valueInMatrix) {
-                textField.setEditable(false); // Desactivar la edición si el número es correcto
+                textField.setEditable(false); // set the textfield in readonly
                 setInteractionLabel("El número ingresado es correcto :)", "green");
                 handleNumbersLeftChange();
                 verifyWinner();
             } else {
-                setInteractionLabel("El número ingresado no es correcto :(", "red"); // imprime mensaje dado el caso
+                setInteractionLabel("El número ingresado no es correcto :(", "red"); // set the text if the user is wrong
                 Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-                    textField.clear(); // Borrar el TextField
+                    textField.clear(); // delete the textfiel
                 }));
-                timeline.play(); // Iniciar la animación
+                game.setErrors(game.getErrors()+1);
+                errors.setText(String.valueOf(game.getErrors()));
+                timeline.play(); // start the animation
             }
         }
     }
-    public void lineTime(){
-        long inicio = System.currentTimeMillis();
-            timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, e -> {
 
-                    long secondsRemaining = Math.max(0, 300 - Math.round((float) (System.currentTimeMillis()- inicio) / 1000));
-                    chronometer.setText(String.format("%02d:%02d", secondsRemaining / 60, secondsRemaining % 60));
+    /**
+     * add a timer
+     * */
+    public void lineTime(){
+        long start = System.currentTimeMillis();
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, e -> {
+                    long elapsedTime = System.currentTimeMillis() - start;
+                    long seconds = elapsedTime / 1000;
+                    long minutes = seconds / 60;
+                    seconds = seconds % 60;
+                    chronometer.setText(String.format("%02d:%02d", minutes, seconds));
                 }),
                 new KeyFrame(Duration.seconds(1))
         );
@@ -221,30 +227,40 @@ public class GameController {
 
 
     /**
-     * funciones de botones de la visa
-     *
+     * View Buttons
+     * return to the welcomeView
      */
-
     public void returnHome() throws IOException {
         GameStage.deleteInstance();
         WelcomeStage.getInstance();
     }
 
+    /**
+     * restart the game and deletes all user's input
+     * */
     public void restart(){
         for (Node node : gridPane.getChildren()) {
             if (node instanceof TextField textField && node.getStyleClass().contains("text-field-editable")) {
                 textField.clear();
             }
         }
+        errors.setText("0");
+        game.setErrors(0);
         timeline.stop();
         lineTime();
     }
 
+    /**
+     * start with another game and board
+     * */
     public void newGame(){
         gridPane.getChildren().removeIf(node -> node instanceof TextField);
-        llenarTablero();
+        errors.setText("0");
+        game.setErrors(0);
+        fillBoard();
         timeline.stop();
         lineTime();
+
     }
 }
 

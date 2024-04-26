@@ -9,7 +9,6 @@ public class WelcomeController {
 
     @FXML
     public void startGame(ActionEvent event) throws IOException {
-        System.out.println("Iniciar juego");
         GameStage.getInstance();
         WelcomeStage.deleteInstance();
     }

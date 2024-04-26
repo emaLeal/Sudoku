@@ -10,6 +10,9 @@ import java.io.IOException;
 
 public class WelcomeStage extends Stage {
 
+    /**
+     * load the view
+     * */
     public WelcomeStage() throws IOException {
         String url = "/com/example/Sudoku/welcome-view.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
@@ -25,14 +28,23 @@ public class WelcomeStage extends Stage {
         show();
     }
 
+    /**
+     * abstract the view
+     * */
     private static class WelcomeStageHolder {
         private static WelcomeStage INSTANCE;
     }
 
+    /**
+     * show the view
+     * */
     public static WelcomeStage getInstance() throws IOException {
         return WelcomeStageHolder.INSTANCE = new WelcomeStage();
     }
 
+    /**
+     * close the view
+     * */
     public static void deleteInstance() {
         WelcomeStageHolder.INSTANCE.close();
         WelcomeStageHolder.INSTANCE = null;
