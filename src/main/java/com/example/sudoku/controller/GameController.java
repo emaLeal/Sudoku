@@ -213,9 +213,11 @@ public class GameController {
         long start = System.currentTimeMillis();
         timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, e -> {
-
-                    long secondsRemaining = Math.max(0, 300 - Math.round((float) (System.currentTimeMillis() - start) / 1000));
-                    chronometer.setText(String.format("%02d:%02d", secondsRemaining / 60, secondsRemaining % 60));
+                    long elapsedTime = System.currentTimeMillis() - start;
+                    long seconds = elapsedTime / 1000;
+                    long minutes = seconds / 60;
+                    seconds = seconds % 60;
+                    chronometer.setText(String.format("%02d:%02d", minutes, seconds));
                 }),
                 new KeyFrame(Duration.seconds(1))
         );
