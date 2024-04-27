@@ -86,18 +86,6 @@ public class GameController {
     }
 
 
-//    public static Pane getPaneAt(GridPane gridPane, int fila, int columna) {
-//        for (Node nodo : gridPane.getChildren()) {
-//            if (GridPane.getRowIndex(nodo) != null && GridPane.getRowIndex(nodo) == fila
-//                    && GridPane.getColumnIndex(nodo) != null && GridPane.getColumnIndex(nodo) == columna) {
-//                if (nodo instanceof Pane) {
-//                    return (Pane) nodo;
-//                }
-//            }
-//        }
-//        return null;
-//    }
-//
     /**
      * verify the board is equal to the matrix and finish game with a congratulation's message
      * */
