@@ -176,8 +176,8 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="box">
                      <children>
-                        <Label prefHeight="26.0" prefWidth="0.0" styleClass="left" text="7" />
-                        <Label prefHeight="21.0" prefWidth="50.0" styleClass="leftlabel" text="Label" />
+                        <Label prefHeight="26.0" prefWidth="100.0" styleClass="left" text="7" />
+                        <Label prefHeight="21.0" prefWidth="100.0" styleClass="leftlabel" text="Label" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="box">
@@ -201,7 +201,7 @@
                 <Font name="System Bold" size="15.0" />
             </font>
         </Label>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+      <HBox prefHeight="99.0" prefWidth="430.0" spacing="30.0">
          <children>
             <Button id="ButtonBlue" mnemonicParsing="false" onAction="#returnHome" prefWidth="66.0" style="-fx-font-size: 13;" text="Volver" />
             <Button id="ButtonRed" mnemonicParsing="false" onAction="#restart" prefHeight="24.0" prefWidth="99.0" style="-fx-font-size: 13;" text="Reiniciar" />

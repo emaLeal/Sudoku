@@ -33,16 +33,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
        </Button>
-      <Button id="ButtonBlue" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="38.0" prefWidth="187.0" text="     INSTRUCIONES" textOverrun="CLIP">
-         <graphic>
-            <ImageView id="imagen1" fx:id="imagen11" fitHeight="58.0" fitWidth="33.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/bombilla.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button id="ButtonGrey" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#endGame" prefHeight="38.0" prefWidth="187.0" text="         SALIR" textOverrun="CLIP">
+      <Button id="ButtonBlue" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#endGame" prefHeight="38.0" prefWidth="187.0" text="         SALIR" textOverrun="CLIP">
          <graphic>
             <ImageView id="imagen1" fx:id="imagen111" fitHeight="36.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>

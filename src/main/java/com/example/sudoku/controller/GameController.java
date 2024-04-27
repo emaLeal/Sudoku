@@ -137,8 +137,15 @@ public class GameController {
                     } else
                         ((Label) children).setText(String.valueOf(9 - leftNumber));
                     if (leftNumber == 9) {
-                        children.getParent().getStyleClass().add("left-complete");
-                        children.getStyleClass().add("left-complete");
+                        if (!children.getParent().getStyleClass().contains("left-complete")) {
+                            children.getParent().getStyleClass().add("left-complete");
+                        }
+                        if (!children.getStyleClass().contains("left-complete")) {
+                            children.getStyleClass().add("left-complete");
+                        }
+                    }else{
+                        children.getParent().getStyleClass().remove("left-complete");
+                        children.getStyleClass().remove("left-complete");
                     }
                 }
 
@@ -209,6 +216,7 @@ public class GameController {
         }
     }
 
+
     /**
      * add a timer
      * */
@@ -245,11 +253,13 @@ public class GameController {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof TextField textField && node.getStyleClass().contains("text-field-editable")) {
                 textField.clear();
+                textField.setEditable(true);
             }
         }
         errors.setText("0");
         game.setErrors(0);
         timeline.stop();
+        handleNumbersLeftChange();
         lineTime();
     }
 

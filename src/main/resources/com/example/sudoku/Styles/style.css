@@ -80,13 +80,13 @@
 .left {
     -fx-font-weight: bold;
     -fx-font-size: 17px;
-    -fx-pref-width: 50;
+    -fx-pref-width: 100;
     -fx-alignment: CENTER;
 }
 
 .leftlabel {
     -fx-font-weight: bold;
-    -fx-pref-width: 50;
+    -fx-pref-width: 100;
     -fx-alignment: CENTER;
     -fx-font-size: 17px;
 }
