@@ -118,7 +118,9 @@ public class GameController {
             }
         }
         game.finishGame();
-        setInteractionLabel("Felicidades, Has Ganado", "orange");
+        String timeelapsed = chronometer.getText();
+        setInteractionLabel("Felicidades, Has Ganado, su tiempo fue de "+ timeelapsed + "minutos", "orange");
+        timeline.stop();
         return true;
     }
 

@@ -18,6 +18,8 @@ public class WelcomeController {
         GameStage.getInstance();
         WelcomeStage.deleteInstance();
     }
+
+
     /**
      * finish the game when the corresponding button is clicked.
 
